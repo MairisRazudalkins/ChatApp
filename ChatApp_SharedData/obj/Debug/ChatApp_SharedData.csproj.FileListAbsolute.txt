@@ -1,0 +1,6 @@
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_SharedData\bin\Debug\ChatApp_SharedData.dll
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_SharedData\bin\Debug\ChatApp_SharedData.pdb
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_SharedData\obj\Debug\ChatApp_SharedData.csproj.AssemblyReference.cache
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_SharedData\obj\Debug\ChatApp_SharedData.csproj.CoreCompileInputs.cache
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_SharedData\obj\Debug\ChatApp_SharedData.dll
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_SharedData\obj\Debug\ChatApp_SharedData.pdb

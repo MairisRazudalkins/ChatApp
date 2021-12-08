@@ -1,0 +1,12 @@
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.exe.config
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.exe
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\ChatApp_SharedData.dll
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\ChatApp_SharedData.pdb
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.AssemblyReference.cache
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.CoreCompileInputs.cache
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.CopyComplete
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.exe
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.pdb
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.pdb
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\Newtonsoft.Json.dll
+E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\Newtonsoft.Json.xml
