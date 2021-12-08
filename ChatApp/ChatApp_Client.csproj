@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Source\Client\Client.cs" />
     <Compile Include="Source\Client\Contact.cs" />
+    <Compile Include="Source\Client\NetCallback.cs" />
     <Compile Include="Source\FileImporter\FileImporter.cs" />
     <Compile Include="Source\Entry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

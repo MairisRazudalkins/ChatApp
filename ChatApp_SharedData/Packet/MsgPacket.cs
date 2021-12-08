@@ -22,15 +22,15 @@ namespace Packets
         private string msg;
         public string GetMsg() { return msg; }
 
-        public MsgPacket(uint senderId, uint targetId, string message) : base(senderId, targetId) { this.PacketCategory = PacketCategory.Message; msg = message; }
+        public MsgPacket(int senderId, int targetId, string message) : base(senderId, targetId) { this.PacketCategory = PacketCategory.Message; msg = message; }
     }
 
     [Serializable]
-    public class ImgPacket : MsgPacket
+    public class ImgMsgPacket : MsgPacket
     {
         private byte[] imgData;
         public byte[] ImgData { get { return imgData; } protected set { imgData = value; } }
 
-        public ImgPacket(uint senderId, uint targetId, byte[] imgData, string message = "") : base(senderId, targetId, message) { this.MsgCategory = MessageType.Image; this.imgData = imgData; }
+        public ImgMsgPacket(int senderId, int targetId, byte[] imgData, string message = "") : base(senderId, targetId, message) { this.MsgCategory = MessageType.Image; this.imgData = imgData; }
     }
 }

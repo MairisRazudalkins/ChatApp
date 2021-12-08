@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Security.Cryptography;
 using User;
 
 namespace Server
@@ -27,14 +28,47 @@ namespace Server
             this.info = info;
         }
 
-        public static bool CreateAccount(LoginDetails loginDetails, UserInfo info, out User user)
-        {
-            return (user = !DoesUserExist(loginDetails.userName) && loginDetails != null && info != null ? new User(loginDetails, info) : null) != null;
-        }
-
         public void SaveData()
         {
-            File.WriteAllText(usersPath + this.loginDetails.userName + ".json", JsonConvert.SerializeObject(this));
+            File.WriteAllBytes(usersPath + this.loginDetails.userName + ".json", Encrypt(JsonConvert.SerializeObject(this)));
+
+            //File.WriteAllText(usersPath + this.loginDetails.userName + ".json", JsonConvert.SerializeObject(this));
+        }
+
+        private byte[] Encrypt(string data) // Encryption src - https://www.c-sharpcorner.com/article/aes-encryption-in-c-sharp/
+        {
+            AesManaged aes = new AesManaged();
+            ICryptoTransform cryptoTransform = aes.CreateEncryptor(aes.Key, aes.IV);
+
+            byte[] bytes = null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (CryptoStream cs = new CryptoStream(ms, cryptoTransform, CryptoStreamMode.Write))
+                {
+                    using (StreamWriter sw = new StreamWriter(cs))
+                        sw.Write(data);
+                    bytes = ms.ToArray();
+                }
+            }
+
+            return bytes;
+        }
+
+        private string Decrypt(byte[] bytes) 
+        {
+            return "";
+        }
+
+        // TODO: Broadcast changes to other users. Maybe don't save data until the user disconnects or server shuts down.
+        public void ChangeName(string newName) { this.info.name = newName; SaveData(); }
+        public void ChangeImage(byte[] newImgData) { this.info.image = newImgData; SaveData(); }
+
+
+        public static bool CreateAccount(LoginDetails loginDetails, UserInfo info, out User user)
+        {
+            info.uniqueId = GenerateUniqueId();
+            return (user = !DoesUserExist(loginDetails.userName) ? new User(loginDetails, info) : null) != null;
         }
 
         public static User TryLoadUserInfo(string userName)
@@ -45,12 +79,12 @@ namespace Server
             return null;
         }
 
-        private static bool DoesUserExist(string userName)
+        public static bool DoesUserExist(string userName)
         {
             return File.Exists(usersPath + userName + ".json");
         }
 
-        private static int GenerateUniqueId()
+        private static int GenerateUniqueId() // Not safe but it will do.
         {
             Random rand = new Random();
             return rand.Next();

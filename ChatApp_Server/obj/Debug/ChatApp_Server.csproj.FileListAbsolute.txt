@@ -10,3 +10,15 @@ E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.pdb
 E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.pdb
 E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\Newtonsoft.Json.dll
 E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp_Server\bin\Debug\Newtonsoft.Json.xml
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.exe.config
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.exe
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.pdb
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_SharedData.dll
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\Newtonsoft.Json.dll
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_SharedData.pdb
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\Newtonsoft.Json.xml
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csprojAssemblyReference.cache
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.CoreCompileInputs.cache
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.CopyComplete
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.exe
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.pdb

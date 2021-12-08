@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using Packets;
+using User;
 
 namespace Server
 {
@@ -15,6 +16,8 @@ namespace Server
         private BinaryReader reader;
         private BinaryWriter writer;
         private BinaryFormatter formatter;
+
+        public UserInfo userInfo;
 
         private object readLock, writeLock;
 

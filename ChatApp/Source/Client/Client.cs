@@ -23,6 +23,10 @@ namespace ChatApp
 
         private UserInfo userInfo;
 
+        private Client() 
+        {
+        }
+
         public bool IsConnected() { return !(tpcClient.Client.Poll(0, SelectMode.SelectRead) && tpcClient.Client.Available == 0); }
 
         public bool Connect(string ip, int port)
@@ -63,9 +67,47 @@ namespace ChatApp
             reader.Dispose();
         }
 
+        public void CreateAccount(LoginDetails newDetails, UserInfo info)
+        {
+            NetCallback callback = new NetCallback(CreateAccountResultCallback, new Random().Next(), 30f);
+            SendPacket(new CreateAccPacket(newDetails, info, callback.GetPacketId()));
+        }
+
+        private void CreateAccountResultCallback(Packet packet) // MOVE CALLBACK TO XMAL CODE 
+        {
+            CreateAccResultPacket result = (CreateAccResultPacket)packet;
+
+            if (result != null)
+            {
+                if (result.Succeeded)
+                {
+                    // Do something
+                }
+            }
+
+            Console.WriteLine(result.ResultMsg);
+        }
+
         public void Login(LoginDetails details)
         {
-            SendPacket(new LoginPacket(details));
+            NetCallback callback = new NetCallback(LoginResultCallback, new Random().Next(), 30f);
+            SendPacket(new LoginPacket(details, callback.GetPacketId()));
+        }
+
+        private void LoginResultCallback(Packet packet) 
+        {
+            LoginResultPacket result = (LoginResultPacket)packet;
+
+            if (result?.UserInfo != null)
+            {
+                this.userInfo = result.UserInfo;
+
+                Console.WriteLine("Logged in");
+            }
+            else
+            {
+                Console.WriteLine("Failed to log in");
+            }
         }
 
         private void Run()
@@ -120,14 +162,17 @@ namespace ChatApp
         {
             // TODO: Handle packets
 
-            switch (packet?.PacketCategory)
+            if (!NetCallback.OnRecievedPacket(packet))
             {
-                case PacketCategory.Message:
+                switch (packet?.PacketCategory)
+                {
+                    case PacketCategory.Message:
 
-                    break;
-                case PacketCategory.UserInfo:
-                    HandleUserPacket(packet);
-                    break;
+                        break;
+                    case PacketCategory.UserInfo:
+                        HandleUserPacket(packet);
+                        break;
+                }
             }
         }
 
@@ -150,9 +195,6 @@ namespace ChatApp
                     {
                         Console.WriteLine("Failed to Log in");
                     }
-                    break;
-                case UserPacketType.Info:
-
                     break;
                 case UserPacketType.NameChange:
 

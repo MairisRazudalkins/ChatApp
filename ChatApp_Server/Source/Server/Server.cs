@@ -94,15 +94,28 @@ namespace Server
                         {
                             if (userData.loginDetails.password == loginPacket.LoginData.password)
                             {
-                                sender.SendPacket(new LoginResultPacket(userData.info));
+                                sender.SendPacket(new LoginResultPacket(userData.info, packet.PacketId));
                                 break;
                             }
                         }
 
-                        sender.SendPacket(new LoginResultPacket(null));
+                        sender.SendPacket(new LoginResultPacket(null, packet.PacketId));
 
                         break;
-                    case UserPacketType.Info:
+                    case UserPacketType.CreateAcc:
+                        CreateAccPacket createAccPacket = (packet as CreateAccPacket);
+
+                        if (createAccPacket.UserInfo != null && createAccPacket.LoginData != null)
+                        {
+                            if (User.CreateAccount(createAccPacket.LoginData, createAccPacket.UserInfo, out User user))
+                            {
+                                user.SaveData();
+                                sender.userInfo = user.info;
+                                sender.SendPacket(new CreateAccResultPacket(true, "Successfuly created profile.", packet.PacketId));
+                            }
+                            else
+                                sender.SendPacket(new CreateAccResultPacket(false, "User name already taken.", packet.PacketId));
+                        }
 
                         break;
                     case UserPacketType.NameChange:
@@ -113,6 +126,8 @@ namespace Server
                         break;
                     case UserPacketType.None:
 
+                        break;
+                    case UserPacketType.LoginResult:
                         break;
                 }
             }

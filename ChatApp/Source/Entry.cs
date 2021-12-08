@@ -7,6 +7,7 @@
 
 using System;
 using User;
+using Packets;
 
 namespace ChatApp
 {
@@ -15,16 +16,10 @@ namespace ChatApp
         [STAThread]
         static void Main(string[] args)
         {
-            Client client = new Client();
+            Client client = Client.GetInst();
             client.Connect("127.0.0.1", 4444);
 
-            Console.WriteLine("Enter user name");
-            string userName = Console.ReadLine();
-
-            Console.WriteLine("Enter user password");
-            string password = Console.ReadLine();
-
-            client.Login(new LoginDetails(userName, password));
+            client.CreateAccount(new LoginDetails("mairis", "password"), new UserInfo("Mairis"));
 
             Console.Read();
         }

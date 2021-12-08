@@ -8,3 +8,13 @@ E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.CoreCompile
 E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.CopyComplete
 E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp\obj\Debug\ChatApp.exe
 E:\A_UniWork\Yr2\CNA\ChatApp\ChatApp\obj\Debug\ChatApp.pdb
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp.exe.config
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp.exe
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp.pdb
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp_SharedData.dll
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp_SharedData.pdb
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csprojAssemblyReference.cache
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.CoreCompileInputs.cache
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.CopyComplete
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp.exe
+C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp.pdb

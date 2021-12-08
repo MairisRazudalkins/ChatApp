@@ -15,16 +15,18 @@ namespace Packets
     [Serializable]
     public class Packet
     {
-        private uint senderId, targetId;
+        private int packetId;
+        private int senderId, targetId;
         private PacketCategory packetCategory;
 
         public PacketCategory PacketCategory { get { return packetCategory; } protected set { packetCategory = value; } }
-        public uint SenderID { get { return senderId; } protected set { senderId = value; } }
-        public uint TargetID { get { return targetId; } protected set { targetId = value; } }
+        public int SenderID { get { return senderId; } protected set { senderId = value; } }
+        public int TargetID { get { return targetId; } protected set { targetId = value; } }
+        public int PacketId { get { return packetId; } protected set { packetId = value; } }
 
-        public Packet() { }
+        public Packet(int packetId = 0) { this.packetId = packetId; }
 
-        public Packet(uint senderId) { this.senderId = senderId; }
-        public Packet(uint senderId, uint targetId) { this.senderId = senderId; this.targetId = targetId; }
+        public Packet(int senderId, int packetId = 0) { this.senderId = senderId; this.packetId = packetId; }
+        public Packet(int senderId, int targetId, int packetId = 0) { this.senderId = senderId; this.targetId = targetId; this.packetId = packetId; }
     }
 }
