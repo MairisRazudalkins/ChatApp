@@ -6,6 +6,7 @@
 //using System.Threading.Tasks;
 
 using System;
+using System.Windows;
 using User;
 using Packets;
 
@@ -16,12 +17,12 @@ namespace ChatApp
         [STAThread]
         static void Main(string[] args)
         {
-            Client client = Client.GetInst();
-            client.Connect("127.0.0.1", 4444);
+            Application application = new Application();
+            MainWindow window = new MainWindow();
 
-            client.CreateAccount(new LoginDetails("mairis", "password"), new UserInfo("Mairis"));
-
-            Console.Read();
+            window.Show();
+            application.MainWindow = window;
+            application.Run();
         }
     }
 }

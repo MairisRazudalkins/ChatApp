@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="ChatApp.Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ChatApp"
+             mc:Ignorable="d" 
+             Height="325" Width="400">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../GlobalDirectory.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <!--<TextBlock Foreground="{StaticResource PrimaryBlue}" FontSize="35" Text="Sign in" Margin="0 0 0 10" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>-->
+
+                <Border Background="{StaticResource PrimaryBlue}" Height="50" VerticalAlignment="Bottom" CornerRadius="50 50 10 10">
+                    <TextBlock Foreground="{StaticResource LightBlue}" FontSize="30" Text="Login" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Border>
+
+                <TextBox Grid.Row="1" Name="NameText" Tag="User Name" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="25" MaxLength="25" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryBlue}" Margin="0 10 0 0" Style="{StaticResource InputField}"/>
+                <TextBox Grid.Row="2" Name="Password" Tag="Password" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="25"  MaxLength="25" Foreground="{StaticResource TextColor}" Background="{StaticResource PrimaryBlue}" Margin="0 10 0 0" Style="{StaticResource InputField}"/>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" HorizontalContentAlignment="Stretch" Tag="Login" Margin="10 10 10 0" Background="{StaticResource PrimaryBlue}" FontFamily="Fonts/Password.ttf" Foreground="{StaticResource LightBlue}" Style="{StaticResource TextButton}" Click="LoginPressed"/>
+                    <Button Grid.Column="1" HorizontalContentAlignment="Stretch" Tag="Create account" Margin="10 10 10 0" Background="{StaticResource PrimaryBlue}" FontFamily="Fonts/Password.ttf" Foreground="{StaticResource LightBlue}" Style="{StaticResource TextButton}" Click="CreateAccountPressed"/>
+
+                </Grid>
+
+                <TextBlock Grid.Row="4" Name="ResultMsg" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17.5" Foreground="{StaticResource TextColor}" Background="Transparent"/>
+
+                <!--<Border Grid.Row="3" Background="{StaticResource PrimaryBlue}" Margin="100 10 100 0" CornerRadius="0 0 20 20">
+                    <Button Background="{x:Null}" BorderThickness="0" Margin="5">
+                        <TextBlock Text="Create" Foreground="{StaticResource LightBlue}" FontSize="25"/>
+                    </Button>
+                </Border>-->
+
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="PasswordStyle" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="Fonts/Password.ttf"/>
+    </Style>
+
+    <SolidColorBrush x:Key="PrimaryBlue" Color="#0836C1"/>
+    <SolidColorBrush x:Key="SecondaryBlue" Color="#1D63DC"/>
+    <SolidColorBrush x:Key="TertiaryBlue" Color="#2F7AE5"/>
+    <SolidColorBrush x:Key="LightBlue" Color="#3E88EF"/>
+
+    <SolidColorBrush x:Key="TextColor" Color="#dddd"/>
+    <SolidColorBrush x:Key="TextBoxColor" Color="#ffff"/>
+    <SolidColorBrush x:Key="TextPreviewColor" Color="#444"/>
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Styles/VerticalScrollBarTheme.xaml"/>
+        <ResourceDictionary Source="Styles/ImageSelector.xaml"/>
+        <ResourceDictionary Source="Styles/InputField.xaml"/>
+        <ResourceDictionary Source="Styles/TextButton.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

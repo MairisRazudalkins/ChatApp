@@ -11,8 +11,10 @@ namespace Packets
     {
         Login,
         LoginResult,
+        Disconnect,
         CreateAcc,
         CreateAccResult,
+        Contact,
         NameChange,
         ImageChange,
         None
@@ -24,9 +26,18 @@ namespace Packets
         private UserPacketType userPacketType = UserPacketType.None;
         public UserPacketType UserPacketType { get { return userPacketType; } protected set { userPacketType = value; } }
 
-        public UserPacket(int packetId = 0) : base(packetId)
+        public UserPacket(int packetId = 0, int senderId = 0, int targerId = 0) : base(packetId, senderId, targerId)
         {
             this.PacketCategory = PacketCategory.UserInfo;
+        }
+    }
+
+    [Serializable]
+    public class DisconnectPacket : UserPacket
+    {
+        public DisconnectPacket(int disconnectedId) : base(0, disconnectedId, 0)
+        {
+            this.UserPacketType = UserPacketType.Disconnect;
         }
     }
 
@@ -47,11 +58,14 @@ namespace Packets
     public class LoginResultPacket : UserPacket
     {
         private UserInfo userInfo;
+        private string resultMsg;
         public UserInfo UserInfo { get { return userInfo; } protected set { userInfo = value; } }
-        public LoginResultPacket(UserInfo userInfo, int packetId = 0) : base(packetId)
+        public string ResultMsg { get { return resultMsg; } protected set { resultMsg = value; } }
+        public LoginResultPacket(UserInfo userInfo, string resultMsg, int packetId = 0) : base(packetId)
         {
             this.UserPacketType = UserPacketType.LoginResult;
             this.userInfo = userInfo;
+            this.resultMsg = resultMsg;
         }
     }
 
@@ -86,6 +100,34 @@ namespace Packets
             this.UserPacketType = UserPacketType.CreateAccResult;
             this.bSuccess = bSuccess;
             this.resultMsg = resultMsg;
+        }
+    }
+
+    [Serializable]
+    public class ChangeImagePacket : UserPacket
+    {
+        private byte[] imgData;
+
+        public byte[] ImgData { get { return imgData; } protected set { imgData = value; } }
+
+        public ChangeImagePacket(byte[] imgData, int senderId = 0) : base(0, senderId)
+        {
+            this.UserPacketType = UserPacketType.ImageChange;
+            this.imgData = imgData;
+        }
+    }
+
+    [Serializable]
+    public class ContactPacket : UserPacket
+    {
+        private UserInfo userInfo;
+
+        public UserInfo UserInfo { get { return userInfo; } protected set { userInfo = value; } }
+
+        public ContactPacket(UserInfo userInfo, int senderId = 0) : base(0, senderId)
+        {
+            this.UserPacketType = UserPacketType.Contact;
+            this.userInfo = userInfo;
         }
     }
 }

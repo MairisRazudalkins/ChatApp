@@ -24,9 +24,6 @@ namespace Packets
         public int TargetID { get { return targetId; } protected set { targetId = value; } }
         public int PacketId { get { return packetId; } protected set { packetId = value; } }
 
-        public Packet(int packetId = 0) { this.packetId = packetId; }
-
-        public Packet(int senderId, int packetId = 0) { this.senderId = senderId; this.packetId = packetId; }
-        public Packet(int senderId, int targetId, int packetId = 0) { this.senderId = senderId; this.targetId = targetId; this.packetId = packetId; }
+        public Packet(int packetId = 0, int senderId = 0, int targetId = 0) { this.packetId = packetId; this.senderId = senderId; this.targetId = targetId; }
     }
 }

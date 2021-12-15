@@ -4,6 +4,8 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 using Packets;
 using User;
 
@@ -23,11 +25,11 @@ namespace ChatApp
 
         private UserInfo userInfo;
 
-        private Client() 
-        {
-        }
+        private Client() { }
 
-        public bool IsConnected() { return !(tpcClient.Client.Poll(0, SelectMode.SelectRead) && tpcClient.Client.Available == 0); }
+        public UserInfo GetInfo() { return userInfo; }
+
+        public bool IsConnected() { return tpcClient.Client.Connected && !(tpcClient.Client.Poll(0, SelectMode.SelectRead) && tpcClient.Client.Available == 0); }
 
         public bool Connect(string ip, int port)
         {
@@ -67,47 +69,23 @@ namespace ChatApp
             reader.Dispose();
         }
 
-        public void CreateAccount(LoginDetails newDetails, UserInfo info)
+        public void CreateAccount(LoginDetails newDetails, UserInfo info, Action<Packet> funcCallback)
         {
-            NetCallback callback = new NetCallback(CreateAccountResultCallback, new Random().Next(), 30f);
+            NetCallback callback = new NetCallback(funcCallback, new Random().Next(), 15f);
             SendPacket(new CreateAccPacket(newDetails, info, callback.GetPacketId()));
         }
 
-        private void CreateAccountResultCallback(Packet packet) // MOVE CALLBACK TO XMAL CODE 
+        public void Login(LoginDetails details, Action<Packet> funcCallback)
         {
-            CreateAccResultPacket result = (CreateAccResultPacket)packet;
-
-            if (result != null)
-            {
-                if (result.Succeeded)
-                {
-                    // Do something
-                }
-            }
-
-            Console.WriteLine(result.ResultMsg);
-        }
-
-        public void Login(LoginDetails details)
-        {
-            NetCallback callback = new NetCallback(LoginResultCallback, new Random().Next(), 30f);
+            NetCallback callback = new NetCallback(funcCallback, new Random().Next(), 15f);
             SendPacket(new LoginPacket(details, callback.GetPacketId()));
         }
 
-        private void LoginResultCallback(Packet packet) 
+        public void OnLogin(UserInfo info)
         {
-            LoginResultPacket result = (LoginResultPacket)packet;
+            this.userInfo = info;
 
-            if (result?.UserInfo != null)
-            {
-                this.userInfo = result.UserInfo;
-
-                Console.WriteLine("Logged in");
-            }
-            else
-            {
-                Console.WriteLine("Failed to log in");
-            }
+            // load contacts...
         }
 
         private void Run()
@@ -126,7 +104,7 @@ namespace ChatApp
 
         public void ReadPacket()
         {
-            if (tpcClient.Client.Available != 0)
+            if (tpcClient.Client.Connected && tpcClient.Client.Available != 0)
             {
                 int packetSize = -1;
 
@@ -167,7 +145,7 @@ namespace ChatApp
                 switch (packet?.PacketCategory)
                 {
                     case PacketCategory.Message:
-
+                        HandleMsgPacket(packet);
                         break;
                     case PacketCategory.UserInfo:
                         HandleUserPacket(packet);
@@ -176,15 +154,45 @@ namespace ChatApp
             }
         }
 
+        private void HandleMsgPacket(Packet packet)
+        {
+            MsgPacket msgPacket = (MsgPacket)packet;
+
+            Contact contact = Contact.FindContact(packet.SenderID);
+
+            if (contact != null)
+            {
+                if (msgPacket.Msg.senderId != Client.GetInst().userInfo.uniqueId)
+                    contact.AddMessage(msgPacket.Msg);
+
+                //switch (msgPacket?.MsgCategory)
+                //{
+                //    case MessageType.Msg:
+                //
+                //        if (msgPacket.Msg.senderId != Client.GetInst().userInfo.uniqueId)
+                //            contact.AddMessage(msgPacket.Msg);
+                //        break;
+                //    case MessageType.Image:
+                //
+                //        ImgMsgPacket imgPacket = (ImgMsgPacket)packet;
+                //
+                //        if (imgPacket.Msg.senderId != Client.GetInst().userInfo.uniqueId)
+                //            contact.AddMessage(msgPacket.Msg);
+                //
+                //        break;
+                //    case MessageType.File:
+                //
+                //        break;
+                //}
+            }
+        }
+
         private void HandleUserPacket(Packet packet)
         {
             switch ((packet as UserPacket)?.UserPacketType)
             {
-                case UserPacketType.Login:
-
-                    break;
                 case UserPacketType.LoginResult:
-                    LoginResultPacket result = packet as LoginResultPacket;
+                    LoginResultPacket result = (LoginResultPacket)packet;
 
                     if (result?.UserInfo != null)
                     {
@@ -201,11 +209,75 @@ namespace ChatApp
                     break;
                 case UserPacketType.ImageChange:
 
+                    ChangeImagePacket changeImage = (ChangeImagePacket)packet;
+
+                    Contact.FindContact(changeImage.SenderID).UpdateImage(changeImage.ImgData);
+
                     break;
-                case UserPacketType.None:
+                case UserPacketType.Contact:
+                    ContactPacket contact = (ContactPacket)packet;
+
+                    if (contact != null)
+                        Contact.AddContact(new Contact(contact.UserInfo));
+
+                    break;
+                case UserPacketType.Disconnect:
+                    DisconnectPacket dcPacket = (DisconnectPacket)packet;
+
+                    if (dcPacket != null)
+                    {
+                       Contact.RemoveContact(dcPacket.SenderID); 
+                    }
 
                     break;
             }
+        }
+
+        //public static BitmapImage ImportImg(ref string imgPath)
+        //{
+        //    OpenFileDialog openFileDialog = new OpenFileDialog();
+        //    openFileDialog.Filter = "jpg (*.jpg)|*.jpg";
+        //    openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        //
+        //    if (openFileDialog.ShowDialog() == true)
+        //        return CacheImage((imgPath = openFileDialog.FileName));
+        //
+        //    return null;
+        //}
+        //
+        //public static BitmapImage CacheImage(string imgPath)
+        //{
+        //    BitmapImage img = new BitmapImage();
+        //
+        //    img.BeginInit();
+        //    img.CacheOption = BitmapCacheOption.OnLoad;
+        //    img.UriSource = new Uri(imgPath);
+        //    img.EndInit();
+        //
+        //    return img;
+        //}
+
+        //public static BitmapImage CacheImage(byte[] imgData)
+        //{
+        //    if (imgData == null)
+        //        return null;
+        //
+        //    BitmapImage img = new BitmapImage();
+        //
+        //    using (MemoryStream stream = new MemoryStream(imgData))
+        //    {
+        //        img.BeginInit();
+        //        img.CacheOption = BitmapCacheOption.OnLoad;
+        //        img.StreamSource = stream;
+        //        img.EndInit();
+        //    }
+        //
+        //    return img;
+        //}
+
+        public void ChangeImage(byte[] data)
+        {
+            SendPacket(new ChangeImagePacket((this.userInfo.image = data)));
         }
     }
 }

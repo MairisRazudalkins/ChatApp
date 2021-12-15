@@ -17,25 +17,40 @@ namespace Server
         private BinaryWriter writer;
         private BinaryFormatter formatter;
 
-        public UserInfo userInfo;
+        private bool bIsLoggedIn;
+        private bool bIsGlobalChat;
+        public User user;
 
         private object readLock, writeLock;
 
         public bool IsConnected() { return !(socket.Poll(0, SelectMode.SelectRead) && socket.Available == 0); } // Socket.Connected only returns if the connection is open based on the previous data recieved or sent.
+        public bool IsLoggedIn() { return bIsLoggedIn; }
+        public bool IsGlobalChat() { return bIsGlobalChat; }
 
-        public ConnectedClient(Socket socket)
+        public ConnectedClient(Socket socket, bool bIsGlobalChat = false)
         {
-            this.socket = socket;
+            if (socket != null)
+            {
+                this.socket = socket;
 
-            readLock = new object();
-            writeLock = new object();
+                readLock = new object();
+                writeLock = new object();
 
-            formatter = new BinaryFormatter();
-            netStream = new NetworkStream(socket, true);
-            reader = new BinaryReader(netStream, Encoding.UTF8);
-            writer = new BinaryWriter(netStream, Encoding.UTF8);
+                formatter = new BinaryFormatter();
+                netStream = new NetworkStream(socket, true);
+                reader = new BinaryReader(netStream, Encoding.UTF8);
+                writer = new BinaryWriter(netStream, Encoding.UTF8);
 
-            Console.WriteLine("Client Connected");
+                Console.WriteLine("Client Connected");
+            }
+
+            this.bIsGlobalChat = bIsGlobalChat;
+        }
+
+        public void OnLogin(User user)
+        {
+            bIsLoggedIn = true;
+            this.user = user;
         }
 
         public void OnDisconnect()
@@ -53,6 +68,9 @@ namespace Server
 
         public Packet Read()
         {
+            if (bIsGlobalChat)
+                return null;
+
             lock (readLock)
             {
                 if (socket.Available == 0)
@@ -74,6 +92,9 @@ namespace Server
 
         public void SendPacket(Packet packet)
         {
+            if (bIsGlobalChat)
+                return;
+
             lock (writeLock)
             {
                 MemoryStream stream = new MemoryStream();

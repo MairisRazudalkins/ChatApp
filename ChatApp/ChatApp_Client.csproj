@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{38BEEC5C-7FEE-46AB-989F-2258CF7CFD58}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>ChatApp</RootNamespace>
     <AssemblyName>ChatApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -40,6 +40,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,15 +56,94 @@
     <Compile Include="Source\FileImporter\FileImporter.cs" />
     <Compile Include="Source\Entry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Ui\Controls\ConnectionUi.xaml.cs">
+      <DependentUpon>ConnectionUi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Ui\Controls\ContactUi.xaml.cs">
+      <DependentUpon>ContactUi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Ui\Controls\MessageUi.xaml.cs">
+      <DependentUpon>MessageUi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Ui\Controls\Messenger.xaml.cs">
+      <DependentUpon>Messenger.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Ui\Controls\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Ui\Controls\ProfileSetup.xaml.cs">
+      <DependentUpon>ProfileSetup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Ui\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Source\Ui\Fonts\Password.ttf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChatApp_SharedData\ChatApp_SharedData.csproj">
       <Project>{a831d270-4130-453a-a635-00a153e57c27}</Project>
       <Name>ChatApp_SharedData</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\Ui\Image\AddIcon.png" />
+    <Resource Include="Source\Ui\Image\ImgIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Source\Ui\Controls\ConnectionUi.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Source\Ui\Controls\ContactUi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Source\Ui\Controls\MessageUi.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Source\Ui\Controls\Messenger.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Source\Ui\Controls\Login.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Source\Ui\Controls\ProfileSetup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Source\Ui\GlobalDirectory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Source\Ui\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Source\Ui\Styles\ImageSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Source\Ui\Styles\InputField.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Source\Ui\Styles\TextButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Source\Ui\Styles\VerticalScrollBarTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\Ui\Image\DefaultProfilePic.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

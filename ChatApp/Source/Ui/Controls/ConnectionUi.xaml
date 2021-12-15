@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="ChatApp.ConnectionUi"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ChatApp"
+             mc:Ignorable="d" 
+             Height="260" Width="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../GlobalDirectory.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="{StaticResource PrimaryBlue}" CornerRadius="15" Margin="10">
+            <TextBlock Name="InfoText" Text="Failed to connect!" Foreground="White" FontSize="25" Padding="10" HorizontalAlignment="Center"/>
+        </Border>
+
+        <Grid Grid.Row="1" Name="InputGrid" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Background="{StaticResource PrimaryBlue}" CornerRadius="15" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox x:Name="IpInputField" FontSize="18" Tag="ip" MaxHeight="112.5" TextWrapping="Wrap" VerticalAlignment="Stretch" Background="{StaticResource SecondaryBlue}" Foreground="white" Style="{StaticResource InputField}" Margin="5"/>
+                    <TextBox Grid.Row="1" x:Name="PortInputField" FontSize="18" Tag="port" MaxHeight="112.5" TextWrapping="Wrap" VerticalAlignment="Stretch" Background="{StaticResource SecondaryBlue}" Foreground="white" Style="{StaticResource InputField}" Margin="5"/>
+                </Grid>
+            </Border>
+
+            <Border Name="ConnectButton" Grid.Row="2" Background="{StaticResource PrimaryBlue}" CornerRadius="15" Margin="10">
+                <Border Background="{StaticResource SecondaryBlue}" CornerRadius="10" Margin="5" MouseDown="OnConnectClicked">
+                    <TextBlock Text="Connect" Foreground="White" FontSize="25" Padding="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

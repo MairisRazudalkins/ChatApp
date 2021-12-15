@@ -1,0 +1,63 @@
+﻿<Window x:Class="ChatApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChatApp"
+        mc:Ignorable="d"
+        Title="Application" 
+        Height="600" Width="1000"
+        MinHeight="450" MinWidth="700"
+        WindowStyle="None"
+        AllowsTransparency="true"
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../UI/GlobalDirectory.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel MouseDown="WindowDrag">
+            <Border Background="{StaticResource PrimaryBlue}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Name="MinimizeButton" Background="{StaticResource SecondaryBlue}" Grid.Column="1" CornerRadius="10" Margin="0 5 5 5" MouseDown="OnMinimizeClick">
+                        <Rectangle Margin="0 10 0 0" Height="4" Width="15" Fill="{StaticResource PrimaryBlue}"/>
+                    </Border>
+                    <Border Name="MaximizeButton" Background="{StaticResource SecondaryBlue}" Grid.Column="2" CornerRadius="10" Margin="0 5 5 5" MouseDown="OnMaximizeClick">
+                        <Grid>
+                            <Rectangle Height="12" Width="20" Fill="{StaticResource PrimaryBlue}" VerticalAlignment="Center"/>
+                            <Rectangle Height="7" Width="13" Fill="{StaticResource SecondaryBlue}" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <Border Name="CloseButton" Background="{StaticResource SecondaryBlue}" Grid.Column="3" CornerRadius="10" Margin="0 5 5 5" MouseDown="OnCloseClick">
+                        <TextBlock Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="Heavy" Foreground="{StaticResource PrimaryBlue}"/>
+                    </Border>
+                </Grid>
+            </Border>
+        </DockPanel>
+
+        <Border Name="Content" Grid.Row="1" Background="{StaticResource SecondaryBlue}">
+            <local:ConnectionUi/>
+            <!-- <local:ProfileSetup HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0 20 0 20"/> -->
+            <!-- <local:ProfileSetup HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0 20 0 20"/>-->
+        </Border>
+    </Grid>
+
+</Window>

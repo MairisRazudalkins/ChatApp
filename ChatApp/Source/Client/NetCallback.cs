@@ -51,6 +51,9 @@ namespace ChatApp
 
                 while (stopWatch.ElapsedMilliseconds < (int)validityLength * 1000 && !bIsHandled) { } // Hate while loop... Replace
 
+                if (!bIsHandled)
+                    callback(null);
+
                 DisposeCallback(this);
             });
         }

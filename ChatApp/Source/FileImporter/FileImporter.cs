@@ -19,7 +19,7 @@ namespace ChatApp
     // static class to import different types of files into the app
     class FileImporter
     {
-        private static void ImportFile(FileType fileType, out string filePath)
+        public static void ImportFile(FileType fileType, out string filePath)
         {
             filePath = null;
 
@@ -34,7 +34,7 @@ namespace ChatApp
             }
         }
 
-        private static BitmapImage CacheImage(string filePath) // Required so image file isn't locked.
+        public static BitmapImage CacheImage(string filePath) // Required so image file isn't locked.
         {
             BitmapImage img = new BitmapImage();
 
@@ -43,6 +43,24 @@ namespace ChatApp
             img.UriSource = new Uri(filePath);
             img.EndInit();
 
+            return img;
+        }
+
+        public static BitmapImage CacheImage(byte[] imgData)
+        {
+            if (imgData == null)
+                return null;
+        
+            BitmapImage img = new BitmapImage();
+        
+            using (MemoryStream stream = new MemoryStream(imgData))
+            {
+                img.BeginInit();
+                img.CacheOption = BitmapCacheOption.OnLoad;
+                img.StreamSource = stream;
+                img.EndInit();
+            }
+        
             return img;
         }
 

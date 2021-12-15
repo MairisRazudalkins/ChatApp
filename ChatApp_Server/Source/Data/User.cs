@@ -11,6 +11,8 @@ namespace Server
     {
         private static readonly string usersPath = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Data\\Users\\";
 
+        private static readonly byte[] key = File.ReadAllBytes(usersPath + "key.txt"), iv = File.ReadAllBytes(usersPath + "iv.txt");
+
         public LoginDetails loginDetails;
         public UserInfo info;
 
@@ -35,29 +37,60 @@ namespace Server
             //File.WriteAllText(usersPath + this.loginDetails.userName + ".json", JsonConvert.SerializeObject(this));
         }
 
-        private byte[] Encrypt(string data) // Encryption src - https://www.c-sharpcorner.com/article/aes-encryption-in-c-sharp/
+        public static User TryLoadUserInfo(string userName)
         {
-            AesManaged aes = new AesManaged();
-            ICryptoTransform cryptoTransform = aes.CreateEncryptor(aes.Key, aes.IV);
+            if (DoesUserExist(userName))
+                return JsonConvert.DeserializeObject<User>(Decrypt(File.ReadAllBytes(usersPath + userName + ".json")));
 
-            byte[] bytes = null;
+            return null;
+        }
 
-            using (MemoryStream ms = new MemoryStream())
+        private static byte[] Encrypt(string data) // Encryption src - https://www.c-sharpcorner.com/article/aes-encryption-in-c-sharp/
+        {
+            ICryptoTransform encryptor = new AesManaged().CreateEncryptor(key, iv);
+
+            using (AesManaged aes = new AesManaged())
             {
-                using (CryptoStream cs = new CryptoStream(ms, cryptoTransform, CryptoStreamMode.Write))
+                using (MemoryStream stream = new MemoryStream())
                 {
-                    using (StreamWriter sw = new StreamWriter(cs))
-                        sw.Write(data);
-                    bytes = ms.ToArray();
+                    using (CryptoStream cryptoStream = new CryptoStream(stream, encryptor, CryptoStreamMode.Write))
+                    {
+                        // Create StreamWriter and write data to a stream    
+                        using (StreamWriter writer = new StreamWriter(cryptoStream))
+                        {
+                            writer.Write(data);
+                        }
+                    }
+
+                    return stream.ToArray();
                 }
             }
 
-            return bytes;
+            //ICryptoTransform encryotor = new AesManaged().CreateEncryptor(key, iv);
+            //
+            //MemoryStream stream = new MemoryStream();
+            //CryptoStream cryptoStream = new CryptoStream(stream, encryotor, CryptoStreamMode.Write);
+            //new StreamWriter(cryptoStream).Write(data);
+            //
+            //return stream.ToArray();
         }
 
-        private string Decrypt(byte[] bytes) 
+        private static string Decrypt(byte[] bytes)
         {
-            return "";
+            using (AesManaged aes = new AesManaged())
+            {
+                ICryptoTransform decryptor = aes.CreateDecryptor(key, iv);
+
+                using (MemoryStream stream = new MemoryStream(bytes))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream(stream, decryptor, CryptoStreamMode.Read))
+                    {
+                        using (StreamReader reader = new StreamReader(cryptoStream))
+                            return reader.ReadToEnd();
+                    }
+                }
+            }
+
         }
 
         // TODO: Broadcast changes to other users. Maybe don't save data until the user disconnects or server shuts down.
@@ -71,20 +104,12 @@ namespace Server
             return (user = !DoesUserExist(loginDetails.userName) ? new User(loginDetails, info) : null) != null;
         }
 
-        public static User TryLoadUserInfo(string userName)
-        {
-            if (DoesUserExist(userName))
-                return JsonConvert.DeserializeObject<User>(File.ReadAllText(usersPath + userName + ".json"));
-
-            return null;
-        }
-
         public static bool DoesUserExist(string userName)
         {
             return File.Exists(usersPath + userName + ".json");
         }
 
-        private static int GenerateUniqueId() // Not safe but it will do.
+        public static int GenerateUniqueId() // Not safe but it will do.
         {
             Random rand = new Random();
             return rand.Next();

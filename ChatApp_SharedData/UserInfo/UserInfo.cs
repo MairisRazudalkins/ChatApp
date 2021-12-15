@@ -36,12 +36,19 @@ namespace User
         public UserInfo(string name)
         {
             this.name = name;
-        }   
+        }
 
-        public UserInfo(string name, int uniqueId)
+        public UserInfo(string name, byte[] imgData)
+        {
+            this.name = name;
+            this.image = imgData;
+        }
+
+        public UserInfo(string name, int uniqueId, byte[] imgData = null)
         {
             this.name = name;
             this.uniqueId = uniqueId;
+            this.image = imgData;
         }
     }
 }

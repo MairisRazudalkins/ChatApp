@@ -45,6 +45,7 @@
     <Compile Include="Packet\MsgPacket.cs" />
     <Compile Include="Packet\UserPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserInfo\Message.cs" />
     <Compile Include="UserInfo\UserInfo.cs" />
   </ItemGroup>
   <ItemGroup />
