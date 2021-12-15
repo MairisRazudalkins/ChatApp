@@ -38,7 +38,7 @@ namespace ChatApp
             InitializeComponent();
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
 
-            if (Client.GetInst().Connect("1227.0.0.1", 4444))
+            if (Client.GetInst().Connect("127.0.0.1", 4444))
             {
                 ChangePage(Page.Login);
             }

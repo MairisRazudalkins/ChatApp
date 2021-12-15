@@ -17,9 +17,10 @@ namespace Server
         private BinaryWriter writer;
         private BinaryFormatter formatter;
 
+        public User user;
+
         private bool bIsLoggedIn;
         private bool bIsGlobalChat;
-        public User user;
 
         private object readLock, writeLock;
 

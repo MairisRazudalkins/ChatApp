@@ -24,7 +24,7 @@ namespace ChatApp
             filePath = null;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = fileType == FileType.Image ? "jpg (*.jpg)|*.jpg" : "txt (*.txt)|*.txt";
+            openFileDialog.Filter = fileType == FileType.Image ? "jpg (*.jpg)|*.jpg;*.png" : "txt (*.txt)|*.txt";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             if (openFileDialog.ShowDialog() == true)
@@ -36,6 +36,9 @@ namespace ChatApp
 
         public static BitmapImage CacheImage(string filePath) // Required so image file isn't locked.
         {
+            if (filePath == null)
+                return null;
+
             BitmapImage img = new BitmapImage();
 
             img.BeginInit();

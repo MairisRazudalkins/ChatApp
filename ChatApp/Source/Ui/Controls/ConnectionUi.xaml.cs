@@ -26,6 +26,7 @@ namespace ChatApp
 
         private string ip = "127.0.0.1";
         private int port = 4444;
+        private int failedAttempts = 0;
 
         public ConnectionUi()
         {
@@ -48,7 +49,7 @@ namespace ChatApp
             Dispatcher.Invoke(() =>
             {
                 InputGrid.Visibility = Visibility.Visible;
-                InfoText.Text = "Failed to connect!";
+                InfoText.Text = string.Format("Failed to connect! ({0})", failedAttempts++);
             });
         }
 

@@ -13,6 +13,8 @@ namespace Server
     public class Server
     {
         private ConcurrentDictionary<int, ConnectedClient> clients;
+        private ConcurrentDictionary<int, RPSGame> activeGames;
+
         private TcpListener tpcListener;
 
         public Server(string ipAddress, int port)
@@ -26,6 +28,7 @@ namespace Server
             int clientIndex = 1;
 
             clients = new ConcurrentDictionary<int, ConnectedClient>();
+            activeGames = new ConcurrentDictionary<int, RPSGame>();
             tpcListener.Start();
             CreateGlobalChat();
 
@@ -100,6 +103,15 @@ namespace Server
             }
         }
 
+        private RPSGame FindGame(int p1Id, int p2Id) 
+        {
+            foreach (var game in activeGames)
+                if (game.Value.DoesContainPlayers(p1Id, p2Id))
+                    return game.Value;
+
+            return null;
+        }
+
         private void HandlePacket(ConnectedClient sender, Packet packet)
         {
             switch (packet.PacketCategory)
@@ -137,10 +149,35 @@ namespace Server
                         }
                         else
                         {
-                            ConnectedClient client = FindClient(packet.TargetID);
+                            ConnectedClient target = FindClient(packet.TargetID);
 
-                            if (client != null)
-                                client.SendPacket(new MsgPacket(sender.user.info.uniqueId, msgPacket.TargetID, msgPacket.Msg));
+                            if (target != null) 
+                            {
+                                if (msgPacket.Msg.msg[0] == '/')
+                                {
+                                    RPSGame game = FindGame(sender.user.info.uniqueId, packet.TargetID);
+
+                                    if (msgPacket.Msg.msg.ToLower() == "/play" && game == null)
+                                    {
+                                        int gameId = new Random().Next();
+                                        activeGames.TryAdd(gameId, new RPSGame(sender, target, gameId));
+                                        return;
+                                    }
+
+                                    if (game != null)
+                                    {
+                                        game.ProccessCommand(sender.user.info.uniqueId, msgPacket.Msg.msg);
+
+                                        if (game.ShouldClose() == true)
+                                            activeGames.TryRemove(game.GetId(), out game);
+                                    }
+                                        //game.OnRecieveSelection(sender.user.info.uniqueId, msgPacket.Msg.msg.Substring(1));
+                                }
+                                else
+                                {
+                                    target.SendPacket(new MsgPacket(sender.user.info.uniqueId, msgPacket.TargetID, msgPacket.Msg));
+                                }
+                            }
                         }
 
                         break;

@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Source\Data\User.cs" />
     <Compile Include="Source\Entry.cs" />
+    <Compile Include="Source\Game\RPSGame.cs" />
     <Compile Include="Source\Server\ConnectedClient.cs" />
     <Compile Include="Source\Server\Server.cs" />
   </ItemGroup>

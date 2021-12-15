@@ -23,6 +23,8 @@ namespace ChatApp
         private BinaryReader reader;
         private BinaryFormatter formatter;
 
+        private Thread readThread; // Needs to be global var to abort when disconnect happens to fix () Error
+
         private UserInfo userInfo;
 
         private Client() { }
@@ -60,13 +62,23 @@ namespace ChatApp
 
         public void Disconnect()
         {
-            tpcClient.Close();
-            tpcClient.Dispose();
+            if (tpcClient == null)
+                return;
 
-            netStream.Dispose();
+            if (IsConnected())
+            {
+                readThread.Abort();
 
-            writer.Dispose();
-            reader.Dispose();
+                tpcClient.Close();
+                tpcClient.Dispose();
+
+                netStream.Dispose();
+
+                writer.Dispose();
+                reader.Dispose();
+            }
+
+            tpcClient = null;
         }
 
         public void CreateAccount(LoginDetails newDetails, UserInfo info, Action<Packet> funcCallback)
@@ -90,12 +102,13 @@ namespace ChatApp
 
         private void Run()
         {
-            Thread readThread = new Thread(() =>
+            readThread = new Thread(() =>
             {
                 while (IsConnected())
                     ReadPacket();
 
                 Disconnect();
+
                 Console.WriteLine("Lost connection");
             });
 
@@ -104,12 +117,15 @@ namespace ChatApp
 
         public void ReadPacket()
         {
-            if (tpcClient.Client.Connected && tpcClient.Client.Available != 0)
+            if (tpcClient != null)
             {
-                int packetSize = -1;
+                if (tpcClient.Client.Connected && tpcClient.Client.Available != 0)
+                {
+                    int packetSize = -1;
 
-                if ((packetSize = reader.ReadInt32()) != -1)
-                    OnRecievePacket(formatter.Deserialize(new MemoryStream(reader.ReadBytes(packetSize))) as Packet);
+                    if ((packetSize = reader.ReadInt32()) != -1)
+                        OnRecievePacket(formatter.Deserialize(new MemoryStream(reader.ReadBytes(packetSize))) as Packet);
+                }
             }
         }
 
