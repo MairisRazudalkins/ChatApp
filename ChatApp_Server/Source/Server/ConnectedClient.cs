@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using Packets;
 using User;
+using System.Security.Cryptography;
 
 namespace Server
 {
@@ -17,12 +19,14 @@ namespace Server
         private BinaryWriter writer;
         private BinaryFormatter formatter;
 
+        public IPEndPoint ipEndPoint;
+
         public User user;
 
         private bool bIsLoggedIn;
         private bool bIsGlobalChat;
 
-        private object readLock, writeLock;
+        private object readLock, writeLock, encryptObj;
 
         public bool IsConnected() { return !(socket.Poll(0, SelectMode.SelectRead) && socket.Available == 0); } // Socket.Connected only returns if the connection is open based on the previous data recieved or sent.
         public bool IsLoggedIn() { return bIsLoggedIn; }
@@ -83,8 +87,7 @@ namespace Server
                 {
                     byte[] buffer = reader.ReadBytes(packetSize);
 
-                    MemoryStream stream = new MemoryStream(buffer);
-                    return formatter.Deserialize(stream) as Packet;
+                    return formatter.Deserialize(new MemoryStream(buffer)) as Packet;
                 }
 
                 return null;

@@ -74,6 +74,9 @@
     <Compile Include="Source\Ui\Controls\ProfileSetup.xaml.cs">
       <DependentUpon>ProfileSetup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Source\Ui\GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Source\Ui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Source\Ui\GameWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Source\Ui\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -144,6 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\Ui\Image\DefaultProfilePic.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\Ui\Image\PlayIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

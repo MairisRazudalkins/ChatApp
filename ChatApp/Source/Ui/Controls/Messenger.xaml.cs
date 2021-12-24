@@ -27,7 +27,6 @@ namespace ChatApp
         private static Messenger inst = null;
 
         private static Dictionary<Contact, ContactUi> contactDictionary = new Dictionary<Contact, ContactUi>();
-        private BitmapImage defaultImageCache;
         private Contact curOpenContact;
         private byte[] pendingImgData;
 
@@ -132,11 +131,17 @@ namespace ChatApp
             if (curOpenContact == contact)
                 ClearCurMsg();
 
-            Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
+            if (contactDictionary.Keys.Contains(contact))
             {
-                ContactStack.Children.Remove(contactDictionary[contact]);
-                contactDictionary.Remove(contact);
-            });
+                Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
+                {
+                    if (ContactStack.Children.Contains(contactDictionary[contact]))
+                    {
+                        ContactStack.Children.Remove(contactDictionary[contact]);
+                        contactDictionary.Remove(contact);
+                    }
+                });
+            }
         }
 
         private void SendMessage(object sender, KeyEventArgs e)
@@ -258,6 +263,18 @@ namespace ChatApp
                 Dispatcher.Invoke(DispatcherPriority.Normal, (Action)delegate
                 {
                     ImgAddedIndicator.Visibility = Visibility.Hidden;
+                });
+            }
+        }
+
+        private void UDP_GamePlayPressed(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Dispatcher.Invoke(() => 
+                {
+                    GameWindow gameWindow = new GameWindow();
+                    gameWindow.Show();
                 });
             }
         }

@@ -22,13 +22,13 @@ namespace ChatApp
 
         public void SendMessage(Message msg)
         {
-            Client.GetInst().SendPacket(new MsgPacket(0, contactInfo.uniqueId, msg));
+            Client.GetInst().TCP_SendPacket(new MsgPacket(msg.senderId, contactInfo.uniqueId, msg));
             messages.Add(msg);
         }
 
         public void SendImgMessage(ImgMessage msg)
         {
-            Client.GetInst().SendPacket(new ImgMsgPacket(0, contactInfo.uniqueId, msg.imgData, (Message)msg));
+            Client.GetInst().TCP_SendPacket(new ImgMsgPacket(0, contactInfo.uniqueId, msg.imgData, (Message)msg));
             messages.Add(msg);
         }
 

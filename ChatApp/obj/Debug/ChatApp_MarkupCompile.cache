@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\
 ChatApp
 none
 false
 DEBUG;TRACE
 
-12-2043478862
+131180604247
 
-13-935421157
-141307469962
-Source\Ui\Controls\ConnectionUi.xaml;Source\Ui\Controls\ContactUi.xaml;Source\Ui\Controls\MessageUi.xaml;Source\Ui\Controls\Messenger.xaml;Source\Ui\Controls\Login.xaml;Source\Ui\Controls\ProfileSetup.xaml;Source\Ui\GlobalDirectory.xaml;Source\Ui\MainWindow.xaml;Source\Ui\Styles\ImageSelector.xaml;Source\Ui\Styles\InputField.xaml;Source\Ui\Styles\TextButton.xaml;Source\Ui\Styles\VerticalScrollBarTheme.xaml;
+14-713068380
+14-172275597
+Source\Ui\Controls\ConnectionUi.xaml;Source\Ui\Controls\ContactUi.xaml;Source\Ui\Controls\MessageUi.xaml;Source\Ui\Controls\Messenger.xaml;Source\Ui\Controls\Login.xaml;Source\Ui\Controls\ProfileSetup.xaml;Source\Ui\GlobalDirectory.xaml;Source\Ui\GameWindow.xaml;Source\Ui\MainWindow.xaml;Source\Ui\Styles\ImageSelector.xaml;Source\Ui\Styles\InputField.xaml;Source\Ui\Styles\TextButton.xaml;Source\Ui\Styles\VerticalScrollBarTheme.xaml;
 
 False
 

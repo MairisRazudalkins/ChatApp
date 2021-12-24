@@ -49,21 +49,20 @@ namespace ChatApp
                     SetMsgProperties(new Message(msg.senderName, msg.senderId, ""));
                     return;
                 }
-
-                if (msg.senderId != Client.GetInst().GetInfo().uniqueId)
+                else if (msg.senderId != Client.GetInst().GetInfo().uniqueId)
                 {
                     int subIndex = msg.msg.IndexOf(' ');
-                    SetMsgProperties(new Message(msg.senderName, msg.senderId, msg.msg));
-                }
-                else
-                {
-                    SetMsgProperties(msg);
+                    string resultMsg = msg.msg;
+
+                    if (subIndex != -1)
+                        resultMsg = resultMsg.Substring(subIndex);
+
+                    SetMsgProperties(new Message(msg.senderName, msg.senderId, resultMsg));
+                    return;
                 }
             }
-            else
-            {
-                SetMsgProperties(msg);
-            }
+
+            SetMsgProperties(msg);
         }
 
         public MessageUi(ImgMessage msg)

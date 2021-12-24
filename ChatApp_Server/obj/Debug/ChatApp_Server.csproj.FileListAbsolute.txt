@@ -22,3 +22,16 @@ C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Serv
 C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.CopyComplete
 C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.exe
 C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.pdb
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.exe.config
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.exe
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_Server.pdb
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_SharedData.dll
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\Newtonsoft.Json.dll
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\ChatApp_SharedData.pdb
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\bin\Debug\Newtonsoft.Json.xml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.AssemblyReference.cache
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.SuggestedBindingRedirects.cache
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.CoreCompileInputs.cache
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.csproj.CopyComplete
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.exe
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp_Server\obj\Debug\ChatApp_Server.pdb

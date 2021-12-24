@@ -9,7 +9,9 @@ namespace Packets
     public enum PacketCategory
     {
         Message,
-        UserInfo
+        UserInfo,
+        UDP_Login,
+        UDP_PositionUpdate
     }
 
     [Serializable]

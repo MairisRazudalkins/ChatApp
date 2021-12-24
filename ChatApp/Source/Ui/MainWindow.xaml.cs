@@ -26,6 +26,7 @@ namespace ChatApp
         Login,
         ProfileSetup,
         Settings,
+        UDP_Demo,
         None
     }
 
@@ -101,8 +102,7 @@ namespace ChatApp
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                Client.GetInst().Disconnect();
-                Close();
+                this.Close();
             }
         }
 

@@ -64,3 +64,39 @@ C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.cspr
 C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.CopyComplete
 C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp.exe
 C:\Users\r013858k\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp.pdb
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp.exe.config
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp.exe
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp.pdb
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp_SharedData.dll
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\bin\Debug\ChatApp_SharedData.pdb
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.AssemblyReference.cache
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.SuggestedBindingRedirects.cache
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\GlobalDirectory.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Styles\ImageSelector.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Styles\InputField.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Styles\TextButton.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Styles\VerticalScrollBarTheme.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\ConnectionUi.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\ContactUi.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\MessageUi.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\Messenger.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\Login.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\ProfileSetup.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\MainWindow.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_MarkupCompile.cache
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_MarkupCompile.lref
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\ConnectionUi.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\ContactUi.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\MessageUi.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\Messenger.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\Login.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\Controls\ProfileSetup.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\MainWindow.baml
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp.g.resources
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.CoreCompileInputs.cache
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp_Client.csproj.CopyComplete
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp.exe
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\ChatApp.pdb
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\GameWindow.g.cs
+C:\Users\john bennison\Documents\GitHub\ChatApp\ChatApp\obj\Debug\Source\Ui\GameWindow.baml

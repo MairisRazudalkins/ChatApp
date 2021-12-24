@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Windows.Media.Imaging;
-using Microsoft.Win32;
 using Packets;
 using User;
 
@@ -16,6 +16,7 @@ namespace ChatApp
         private static Client inst;
         public static Client GetInst() { return inst == null ? inst = new Client() : inst; }
 
+        private UdpClient udpClient;
         private TcpClient tpcClient;
         private NetworkStream netStream;
 
@@ -23,10 +24,9 @@ namespace ChatApp
         private BinaryReader reader;
         private BinaryFormatter formatter;
 
-        private Thread readThread; // Needs to be global var to abort when disconnect happens to fix () Error
-
+        private Thread readThread, udp_readThread; // Needs to be global var to abort when disconnect happens to fix () Error
+        
         private UserInfo userInfo;
-
         private Client() { }
 
         public UserInfo GetInfo() { return userInfo; }
@@ -43,12 +43,33 @@ namespace ChatApp
                 Initialize();
                 OnConnected();
 
+                UDP_Connect(ip, port);
+
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
                 return false;
+            }
+        }
+
+        public void UDP_Connect(string ip, int port) 
+        {
+            try
+            {
+                udpClient = new UdpClient();
+                udpClient.Connect(ip, port);
+
+                Thread udpThread = new Thread(new ThreadStart(UDP_ReadPacket));
+                udpThread.Start();
+
+                UDP_Login();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return;
             }
         }
 
@@ -62,35 +83,36 @@ namespace ChatApp
 
         public void Disconnect()
         {
-            if (tpcClient == null)
-                return;
-
-            if (IsConnected())
-            {
+            if (readThread != null)
                 readThread.Abort();
 
-                tpcClient.Close();
-                tpcClient.Dispose();
+            if (udp_readThread != null)
+                udp_readThread.Abort();
 
-                netStream.Dispose();
+            tpcClient.Close();
+            tpcClient.Dispose();
 
-                writer.Dispose();
-                reader.Dispose();
-            }
+            netStream.Dispose();
 
+            writer.Dispose();
+            reader.Dispose();
+
+            udpClient.Close();
+
+            udpClient = null;
             tpcClient = null;
         }
 
         public void CreateAccount(LoginDetails newDetails, UserInfo info, Action<Packet> funcCallback)
         {
             NetCallback callback = new NetCallback(funcCallback, new Random().Next(), 15f);
-            SendPacket(new CreateAccPacket(newDetails, info, callback.GetPacketId()));
+            TCP_SendPacket(new CreateAccPacket(newDetails, info, callback.GetPacketId()));
         }
 
         public void Login(LoginDetails details, Action<Packet> funcCallback)
         {
             NetCallback callback = new NetCallback(funcCallback, new Random().Next(), 15f);
-            SendPacket(new LoginPacket(details, callback.GetPacketId()));
+            TCP_SendPacket(new LoginPacket(details, callback.GetPacketId()));
         }
 
         public void OnLogin(UserInfo info)
@@ -105,17 +127,21 @@ namespace ChatApp
             readThread = new Thread(() =>
             {
                 while (IsConnected())
-                    ReadPacket();
-
-                Disconnect();
+                    TCP_ReadPacket();
 
                 Console.WriteLine("Lost connection");
             });
 
+            udp_readThread = new Thread(() =>
+            {
+                UDP_ReadPacket();
+            });
+
             readThread.Start();
+            udp_readThread.Start();
         }
 
-        public void ReadPacket()
+        private void TCP_ReadPacket()
         {
             if (tpcClient != null)
             {
@@ -123,13 +149,13 @@ namespace ChatApp
                 {
                     int packetSize = -1;
 
-                    if ((packetSize = reader.ReadInt32()) != -1)
+                    if ((packetSize = reader.ReadInt32()) != -1)             
                         OnRecievePacket(formatter.Deserialize(new MemoryStream(reader.ReadBytes(packetSize))) as Packet);
                 }
             }
         }
 
-        public void SendPacket(Packet packet)
+        public void TCP_SendPacket(Packet packet)
         {
             if (IsConnected())
             {
@@ -161,16 +187,20 @@ namespace ChatApp
                 switch (packet?.PacketCategory)
                 {
                     case PacketCategory.Message:
-                        HandleMsgPacket(packet);
+                        TCP_HandleMsgPacket(packet);
                         break;
                     case PacketCategory.UserInfo:
-                        HandleUserPacket(packet);
+                        TCP_HandleUserPacket(packet);
+                        break;
+                    case PacketCategory.UDP_PositionUpdate:
+                        UDP_PositionPacket posPacket = (UDP_PositionPacket)packet;
+                        GameWindow.OnReceivePosUpdate(packet.SenderID, new Vector2(posPacket.X, posPacket.Y), posPacket.R, posPacket.G, posPacket.B);
                         break;
                 }
             }
         }
 
-        private void HandleMsgPacket(Packet packet)
+        private void TCP_HandleMsgPacket(Packet packet)
         {
             MsgPacket msgPacket = (MsgPacket)packet;
 
@@ -203,7 +233,7 @@ namespace ChatApp
             }
         }
 
-        private void HandleUserPacket(Packet packet)
+        private void TCP_HandleUserPacket(Packet packet)
         {
             switch ((packet as UserPacket)?.UserPacketType)
             {
@@ -241,11 +271,48 @@ namespace ChatApp
                     DisconnectPacket dcPacket = (DisconnectPacket)packet;
 
                     if (dcPacket != null)
-                    {
-                       Contact.RemoveContact(dcPacket.SenderID); 
-                    }
+                        Contact.RemoveContact(dcPacket.SenderID);
 
                     break;
+            }
+        }
+
+        private void UDP_Login() 
+        {
+            TCP_SendPacket(new UDP_LoginPacket((IPEndPoint)udpClient.Client.LocalEndPoint));
+        }
+
+        private void UDP_ReadPacket()
+        {
+            try
+            {
+                IPEndPoint defaultIp = new IPEndPoint(IPAddress.Any, 0);
+
+                while (true)
+                {
+                    byte[] buffer = udpClient.Receive(ref defaultIp);
+
+                    if (buffer != null)
+                        OnRecievePacket(formatter.Deserialize(new MemoryStream(buffer)) as Packet);
+                }
+
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("UDP ERROR: " + e.Message);
+            }
+        }
+
+        public void UDP_SendPacket(Packet packet) 
+        {
+            if (IsConnected())
+            {
+                MemoryStream stream = new MemoryStream();
+                formatter.Serialize(stream, packet);
+
+                byte[] buffer = stream.GetBuffer();
+
+                udpClient.Send(buffer, buffer.Length);
             }
         }
 
@@ -293,7 +360,7 @@ namespace ChatApp
 
         public void ChangeImage(byte[] data)
         {
-            SendPacket(new ChangeImagePacket((this.userInfo.image = data)));
+            TCP_SendPacket(new ChangeImagePacket((this.userInfo.image = data)));
         }
     }
 }

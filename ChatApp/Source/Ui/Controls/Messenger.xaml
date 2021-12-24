@@ -31,6 +31,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="55"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="55"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid>
@@ -43,6 +44,18 @@
                 </Grid>
 
                 <TextBlock Grid.Column="1" x:Name="UserNameText" Text="Name" Margin="10 0 10 0" VerticalAlignment="Center" FontSize="16" Foreground="White"/>
+                <Border Grid.Column="2" x:Name="UdpGameBorder" Background="{StaticResource TertiaryBlue}" CornerRadius="50" Margin="10" MouseDown="UDP_GamePlayPressed">
+                    <Image Source="../Image/PlayIcon.png" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.8" ScaleY="1.8"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Border>
             </Grid>
         </Border>
 

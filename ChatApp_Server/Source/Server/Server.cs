@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 
 using Packets;
@@ -16,11 +17,57 @@ namespace Server
         private ConcurrentDictionary<int, RPSGame> activeGames;
 
         private TcpListener tpcListener;
+        private UdpClient udpListener;
 
         public Server(string ipAddress, int port)
         {
             IPAddress ip = IPAddress.Parse(ipAddress);
             tpcListener = new TcpListener(ip, port);
+            udpListener = new UdpClient(port);
+        }
+
+        private void UDP_SendPacket(ConnectedClient client, Packet packet) 
+        {
+            if (client.ipEndPoint == null || packet == null)
+                return;
+
+            MemoryStream stream = new MemoryStream();
+            new BinaryFormatter().Serialize(stream, packet);
+            byte[] buffer = stream.GetBuffer();
+
+            udpListener.Send(buffer, buffer.Length, client.ipEndPoint);
+        }
+
+        private void UDP_Listen()
+        {
+            try
+            {
+                while (true)
+                {
+                    IPEndPoint defaultIp = new IPEndPoint(IPAddress.Any, 0);
+
+                    byte[] buffer = udpListener.Receive(ref defaultIp);
+
+                    if (buffer == null)
+                        continue;
+
+                    foreach (ConnectedClient client in clients.Values)
+                    {
+                        if (client.ipEndPoint != null)
+                        {
+                            if (client.ipEndPoint.ToString() == defaultIp.ToString())
+                            {
+                                HandlePacket(client, new BinaryFormatter().Deserialize(new MemoryStream(buffer)) as Packet);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("UDP ERROR: " + e.Message);
+            }
         }
 
         public void Start()
@@ -31,6 +78,9 @@ namespace Server
             activeGames = new ConcurrentDictionary<int, RPSGame>();
             tpcListener.Start();
             CreateGlobalChat();
+
+            Thread udpListenThread = new Thread(new ThreadStart(UDP_Listen));
+            udpListenThread.Start();
 
             while (true)
             {
@@ -58,8 +108,6 @@ namespace Server
                 if ((packetReceived = client.Read()) != null)
                     HandlePacket(client, packetReceived);
 
-            Console.WriteLine("Disconnected");
-
             if (client.IsLoggedIn())
                 Broadcast(new DisconnectPacket(client.user.info.uniqueId));
 
@@ -85,20 +133,25 @@ namespace Server
 
         private void CreateGlobalChat()
         {
-            ConnectedClient globalChat = new ConnectedClient(null, true); // BAD IMPL. BUT IT WORKS (Tarkov wiped... I got lazy :D )
+            ConnectedClient globalChat = new ConnectedClient(null, true);
             globalChat.OnLogin(new User(null, new UserInfo("Global Chat", User.GenerateUniqueId(), File.ReadAllBytes(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName + "\\Data\\GlobalChatIcon.jpg"))));
 
             clients.TryAdd(0, globalChat);
         }
 
-        private void Broadcast(Packet packet)
+        private void Broadcast(Packet packet, bool bUseUDP = false)
         {
-            foreach (var client in clients)
+            foreach (ConnectedClient client in clients.Values)
             {
-                if (client.Value.IsLoggedIn())
+                if (client.IsLoggedIn())
                 {
-                    if (client.Value.user.info.uniqueId != packet.SenderID) 
-                        client.Value.SendPacket(packet);
+                    if (client.user.info.uniqueId != packet.SenderID)
+                    {
+                        if (bUseUDP)
+                            UDP_SendPacket(client, packet);
+                        else
+                            client.SendPacket(packet);
+                    }
                 }
             }
         }
@@ -121,6 +174,13 @@ namespace Server
                     break;
                 case PacketCategory.UserInfo:
                     HandleUserInfoPacket(sender, packet);
+                    break;
+                case PacketCategory.UDP_Login:
+                    sender.ipEndPoint = ((UDP_LoginPacket)packet).IpEndPoint;
+                    break;
+                case PacketCategory.UDP_PositionUpdate:
+                    UDP_PositionPacket posPacket = (UDP_PositionPacket)packet;
+                    Broadcast(new UDP_PositionPacket(posPacket.X, posPacket.Y, posPacket.R, posPacket.G, posPacket.B, sender.user.info.uniqueId));
                     break;
             }
         }
@@ -260,11 +320,6 @@ namespace Server
                         Broadcast(new ChangeImagePacket(imagePacket.ImgData, sender.user.info.uniqueId));
                         // TODO: Broadcast changes!
 
-                        break;
-                    case UserPacketType.None:
-
-                        break;
-                    case UserPacketType.LoginResult:
                         break;
                 }
             }

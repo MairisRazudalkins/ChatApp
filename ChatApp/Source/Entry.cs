@@ -19,10 +19,16 @@ namespace ChatApp
         {
             Application application = new Application();
             MainWindow window = new MainWindow();
-
+            
             window.Show();
             application.MainWindow = window;
             application.Run();
+
+            //GameWindow gameWindow = new GameWindow();
+            //gameWindow.Show();
+            //
+            //application.MainWindow = gameWindow;
+            //application.Run();
         }
     }
 }
